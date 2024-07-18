@@ -1,28 +1,19 @@
 #!/usr/bin/python3
-"""
-2D matrix rotation module.
-"""
+"""2D matrix"""
+
 
 def rotate_2d_matrix(matrix):
-    """Rotates an m by n 2D matrix in place."""
-    if type(matrix) != list:
-        return
-    if len(matrix) <= 0:
-        return
-    if not all(map(lambda x: type(x) == list, matrix)):
-        return
-    cols = len(matrix[0])
-    rows = len(matrix)
-    if not all(map(lambda x: len(x) == cols, matrix)):
-        return
-    c, r = 0, rows - 1
-    for i in range(cols * rows):
-        if i % rows == 0:
-            matrix.append([])
-        if r == -1:
-            r = rows - 1
-            c += 1
-        matrix[-1].append(matrix[r][c])
-        if c == cols - 1 and r >= -1:
-            matrix.pop(r)
-        r -= 1
+    """rotates a 2d matrix 90° clockwise
+    Returns: Nothing"""
+    left, right = 0, len(matrix) - 1
+
+    while left < right:
+        for i in range(right - left):
+            top, bottom = left, right
+            topLeft = matrix[top][left + i]
+            matrix[top][left + i] = matrix[bottom - i][left]
+            matrix[bottom - i][left] = matrix[bottom][right - i]
+            matrix[bottom][right - i] = matrix[top + i][right]
+            matrix[top + i][right] = topLeft
+        right -= 1
+        left += 1
